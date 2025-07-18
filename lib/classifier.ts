@@ -148,9 +148,9 @@ export class ArticleClassifier {
     for (const embedding of testEmbeddings) {
       try {
         const X = new Matrix([embedding.embedding]);
-        const probabilities = trainedModel.classifier.predict(X);
-        const predictedIndex = probabilities[0].indexOf(Math.max(...probabilities[0]));
-        const predictedCategory = trainedModel.categories[predictedIndex];
+        const prediction = trainedModel.classifier.predict(X);
+        const predictedIndex = Array.isArray(prediction) ? prediction[0] : prediction;
+        const predictedCategory = trainedModel.categories[predictedIndex] || trainedModel.categories[0];
         predictions.push(predictedCategory);
       } catch (error) {
         console.error('Error during prediction:', error);
